@@ -136,6 +136,11 @@ function getHash() {
   return hash.substring(1); // remove #
 }
 
+function getParameterByName(name) {
+    var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
+    return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+}
+
 function amplitudeFromFrequency(freq) {
   if (freq < 220) {
     return 1.0;
@@ -171,7 +176,10 @@ function amplitudeFromFrequency(freq) {
 
 /* Do stuff: */
 
-var frequency = parseInt(getHash(), 10);
+var frequency = parseInt(getParameterByName('f'), 10)
+if (isNaN(frequency)) {
+  frequency = parseInt(getHash(), 10);
+}
 if (!isNaN(frequency)) {
   var context = new webkitAudioContext();
   var sinewave = new SineWave(context);
@@ -182,7 +190,7 @@ if (!isNaN(frequency)) {
 
   $('#frequency_display').text(frequency + ' Hz');
 } else {
-  window.location.href = "https://twitter.com/frequencytoday";
+  window.location.replace("https://twitter.com/frequencytoday");
 }
 
 </script>
