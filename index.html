@@ -172,7 +172,7 @@ function amplitudeFromFrequency(freq) {
 /* Do stuff: */
 
 var frequency = parseInt(getHash(), 10);
-if (frequency !== NaN) {
+if (!isNaN(frequency)) {
   var context = new webkitAudioContext();
   var sinewave = new SineWave(context);
 
