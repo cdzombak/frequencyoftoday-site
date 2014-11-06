@@ -108,9 +108,11 @@ function gainForFrequency(freq) {
     gainNode.connect(context.destination);
     oscillator.noteOn(0);
 
-    $('#frequency_display').text(frequency + ' Hz');
+    var freqString = frequency + ' Hz';
+    $('#frequency_display').text(freqString);
+    window.document.title = freqString;
   } else {
-    window.location.replace("https://twitter.com/frequencytoday");
+    window.location.replace("https://twitter.com/frequencytoday/");
   }
 }(window));
 
