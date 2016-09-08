@@ -102,6 +102,7 @@ function gainForFrequency(freq) {
 
   if (!isNaN(frequency)) {
     oscillator.frequency.value = frequency;
+    oscillator.type = 'sine';
     gainNode.gain.value = gainForFrequency(frequency);
 
     oscillator.connect(gainNode);
