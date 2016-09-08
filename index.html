@@ -106,7 +106,7 @@ function gainForFrequency(freq) {
 
     oscillator.connect(gainNode);
     gainNode.connect(context.destination);
-    oscillator.noteOn(0);
+    oscillator.start(0);
 
     var freqString = frequency + ' Hz';
     $('#frequency_display').text(freqString);
