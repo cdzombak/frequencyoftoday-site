@@ -29,13 +29,24 @@
     }
     a {color:black;}
     a:hover {color:white;background-color:black;}
+    .play-icon {
+      box-sizing: border-box;
+      border-style: solid;
+      border-width: 12px 0px 12px 24px;
+      border-color: transparent transparent transparent #333;
+      padding-right: 10px;
+    }
   </style>
 </head>
 <body>
   <h1 id="frequency_display">…</h1>
   <p>is today’s frequency</p>
-
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <p style="margin-top: 20px;">
+    <button style="height: 40px; width: 40px;" id="play-btn">
+      <div class="play-icon"></div>
+    </button>
+  </p>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script>
 
 function getHash() {
@@ -72,40 +83,42 @@ function gainForFrequency(freq) {
   }
 }
 
-(function init(g){
-  var context, oscillator, gainNode;
-
-  try {
-    context = new (g.AudioContext || g.webkitAudioContext);
-    oscillator = context.createOscillator();
-    gainNode = context.createGain();
-  } catch (e) {
-    alert('Sorry, your browser doesn\'t support WebAudio Oscillators.');
-  }
-
+(function init(){
   var frequency = parseInt(getParameterByName('f'), 10)
   if (isNaN(frequency)) {
     frequency = parseInt(getHash(), 10);
   }
-
-  if (!isNaN(frequency)) {
-    oscillator.frequency.value = frequency;
-    oscillator.type = 'sine';
-    gainNode.gain.value = gainForFrequency(frequency);
-
-    oscillator.connect(gainNode);
-    gainNode.connect(context.destination);
-    oscillator.start(0);
-
-    var freqString = frequency + ' Hz';
-    $('#frequency_display').text(freqString);
-    window.document.title = freqString;
-  } else {
+  if (isNaN(frequency)) {
     window.location.replace("https://twitter.com/frequencytoday/");
+    return
   }
-}(window));
+
+  var freqString = frequency + ' Hz';
+  $('#frequency_display').text(freqString);
+  window.document.title = freqString;
+
+  var context, oscillator, gainNode;
+  $("#play-btn").click(function() {
+    try {
+      context = new (window.AudioContext || window.webkitAudioContext)();
+      oscillator = context.createOscillator();
+      gainNode = context.createGain();
+
+      oscillator.frequency.value = frequency;
+      oscillator.type = 'sine';
+      gainNode.gain.value = gainForFrequency(frequency);
+
+      oscillator.connect(gainNode);
+      gainNode.connect(context.destination);
+      oscillator.start(0);
+    } catch (e) {
+      alert('Sorry, your browser doesn’t support the technology we’d use to let you hear what ' + freqString + ' sounds like.');
+    }
+
+    $("#play-btn").hide(50)
+  });
+}());
 
 </script>
-
 </body>
 </html>
