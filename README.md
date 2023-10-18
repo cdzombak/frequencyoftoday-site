@@ -1,3 +1,3 @@
-# frequencyofdottoday
+# frequencyoftoday.dzdz.cz
 
-A simple website that plays tones, in concert with [this Twitter bot](https://github.com/cdzombak/frequencyoftoday-generator).
+A simple website that plays tones, in concert with [this Mastodon bot](https://github.com/cdzombak/frequencyoftoday-bot).
